@@ -2,36 +2,44 @@ import React , {useState} from 'react'
 
 function App() {
 
- const [user, setUser] = useState({
-   username : "",
-   password : "",
- })
- 
- const onChangeUser = (e) => {
-   setUser({
-     ...user,
-     [e.target.name] : e.target.value
-   })
- }
- const onSubmit = (e)=>{
-   e.preventDefault();
-   console.log(user);
- }
+  const [ formData, setFormData] = useState({
+    isAgree : false,
+    gender : ""
+  })
 
- // name prop should match the property within this object
+
+  const handleChange = (e) => {
+    const target = e.target;
+    const name = target.name;
+    const value = target.type ==="checkbox" ? target.checked : target.value
+
+    setFormData({
+      ...formData,
+      [name]  : value
+    })
+  }
+  
+
   return (
-    <form onSubmit={onSubmit}>
-      <h1>Username is : {user.username}</h1>
-      <h1>Password is : {user.password}</h1>
-      <input type="text"
-         value={user.username}
-         name="username"
-         onChange = {onChangeUser}/>
-      <input type="text" value={user.password}
-        value={user.password}
-        name="password"
-        onChange = {onChangeUser}/>
-      <button type="submit">Submit</button>
+    <form>
+      <div>
+        <label>Male : </label>
+        <input type="radio" name="gender" value="male"
+        onChange = {handleChange} checked={formData.gender === "male"}/>
+        <label>Feemle : </label>
+        <input type="radio" name="gender" value="female"
+        onChange = {handleChange} checked={formData.gender === "female"}/>
+      </div>
+      <div>
+        <input type="checkbox" name="isAgree"
+         checked={formData.isAgree}
+         onChange = {handleChange}
+         />
+        <label> Agree?</label>
+      </div>
+      <p>Gender : {formData.gender}
+        isAgree : {formData.isAgree ? "true" : "false"}
+      </p>
     </form>
   )
 }
