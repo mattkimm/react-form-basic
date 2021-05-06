@@ -2,23 +2,36 @@ import React , {useState} from 'react'
 
 function App() {
 
-  const [ username ,setUsername] = useState("");
+ const [user, setUser] = useState({
+   username : "",
+   password : "",
+ })
+ 
+ const onChangeUser = (e) => {
+   setUser({
+     ...user,
+     [e.target.name] : e.target.value
+   })
+ }
+ const onSubmit = (e)=>{
+   e.preventDefault();
+   console.log(user);
+ }
 
-  const [ password ,setPassword] = useState("");
-
- // value : when we have a value prop and we pass down state 
- // we're telling react that we want controlled component
- // onChange : update state, takes in function . event  object
+ // name prop should match the property within this object
   return (
-    <form>
-      <h1>Username is : {username}</h1>
-      <h1>Password is : {password}</h1>
+    <form onSubmit={onSubmit}>
+      <h1>Username is : {user.username}</h1>
+      <h1>Password is : {user.password}</h1>
       <input type="text"
-         value={username}
-         onChange = {(e)=>{ setUsername(e.target.value)}}/>
-      <input type="text" value={password}
-        value={password}
-        onChange = {(e)=>{ setUsername(e.target.value)}}/>
+         value={user.username}
+         name="username"
+         onChange = {onChangeUser}/>
+      <input type="text" value={user.password}
+        value={user.password}
+        name="password"
+        onChange = {onChangeUser}/>
+      <button type="submit">Submit</button>
     </form>
   )
 }
